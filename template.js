@@ -1,6 +1,6 @@
 /*
 ** @author : wolf
-** @date : -/-
+** @date : 6/21
 ** template code.(Deleted spreadsheet URL.)
 */
 
@@ -37,12 +37,15 @@ var nameHash = {}, //Dictionaryの初期化
 
 /* スプレッドシートの読み込み */
 function copyAndPaste(){
+  //最終列を取得。
+  var menberCount = membersSpreadSheet.getLastRow();
+//  Logger.log(menberCount);
 
   //部員メンバー一覧からコピペ
-  var copyValue = membersSpreadSheet.getRange('A1:B60').getValues();
-  formSheets.getRange('A1:B60').setValues(copyValue);
+  var copyValue = membersSpreadSheet.getRange('A1:B' + menberCount).getValues();
+  formSheets.getRange('A1:B' + menberCount).setValues(copyValue);
 
-  var cacMember = formSheets.getRange('B1:B60').getValues();
+  var cacMember = formSheets.getRange('B1:B' + menberCount).getValues();
   cacArray = Array.prototype.concat.apply([], cacMember); //2次元から1次元配列へ
 
   printData();
@@ -58,8 +61,9 @@ function printData(){
 
     for(var item in itemRes){
       var itemResponse = itemRes[item]; //'名前', '意見'が入ってる(配列)
+      var nameColumn = itemResponse.getItem().getTitle();
       //名前カラムが一致した時
-      if( itemResponse.getItem().getTitle().match('名前') ){ 
+      if( nameColumn.match('名前') || nameColumn.match('氏名') ){ 
         putData( itemResponse.getResponse() ); //名前の追加と初期化
       }
     }
@@ -86,8 +90,9 @@ function judge(){
       }else{
         decorateRed( formSheets.getRange(count+1, 3) ); //飾り
       }
-    count++;
+    count++; 
   }
+//  Logger.log(cacArray.length);
 }
 
 /* 背景色付け・○×表記・中央寄せ */
