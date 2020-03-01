@@ -46,4 +46,5 @@ clasp open
 
 ## 補足
 GASのランタイムがV8に変わったことによって、使用しているツール([clasp](https://github.com/google/clasp))もアップデートされて今不安定で使用できまて〜ん！！！(2020.03.01)  
-↑GASで使うjsでアロー関数とかが使えるようになった
+↑GASで使うjsでアロー関数とかが使えるようになった  
+なので、今使用するのは[template.js](https://github.com/c-a-c/CAConfirm/blob/master/template.js)
