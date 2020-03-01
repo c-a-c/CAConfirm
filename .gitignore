@@ -1,2 +1,30 @@
-.DS_Store
-/read_jsonfile
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Editor
+.idea/
+.vscode/
+
+# Build directory
+dist/
+
+# Dust Box
+dust/
+.DS_Store*
+
+# private informations
+.clasp.json
+# appsscript.json
+
+# private Directory
+astah/
+
+# src folder
+src/Zip.ts
