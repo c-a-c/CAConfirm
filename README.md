@@ -1,10 +1,16 @@
 # CAconfirm
-## 前準備
+- C.A.C.用リポジトリ
+  - [オリジナル](https://github.com/uewolf25/confirm_form)
+- version: 2.0 (2020.01.21)
+
+## 使用するもの
 - Node.jsのインストールとnpmコマンド
 - clasp
+- TypeScript
 - (任意の)ブラウザ
 - Googleアンケートとそのスプレッドシート
 - スプレッドシート(氏名一覧を載せた名簿)
+
 
 ## 用途
 アンケートを答えたということを本人が忘れることがしばしばある。  
@@ -24,4 +30,20 @@
 GASのスクリプトページの、`「ファイル」 > 「プロジェクトのプロパティ」`のプロパティ欄にスクリプトIDが記載されていると思います。
 
 
+## 開発環境
+- Node version (node -v): 13.8.0
+- npm version (npm -v): 6.14.1
+- clasp version (clasp -v): 2.3.0
+- OS (Mac/Linux/Windows): Mac
+
+
 ## 実行方法
+```
+npm build run
+clasp push
+clasp open
+```
+
+## 補足
+GASのランタイムがV8に変わったことによって、使用しているツール([clasp](https://github.com/google/clasp))もアップデートされて今不安定で使用できまて〜ん！！！(2020.03.01)  
+↑GASで使うjsでアロー関数とかが使えるようになった
