@@ -19,9 +19,6 @@ dist/
 dust/
 .DS_Store*
 
-# relation with README.md
-img/*
-
 # private informations
 .clasp.json
 # appsscript.json
