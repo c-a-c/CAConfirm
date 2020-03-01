@@ -20,7 +20,7 @@ dust/
 .DS_Store*
 
 # relation with README.md
-img/
+img/*
 
 # private informations
 .clasp.json
