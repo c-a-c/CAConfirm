@@ -1,26 +1,28 @@
 /*
 ** @author : wolf
-** @date : 6/21
-** template code.(Deleted spreadsheet URL.)
+** @date : 2020/3/11
+** template code. (Deleted spreadsheet URL.)
+** claspを用いない方法(うんコード)
+** @necesaary : 
+**  - @param GOOGLE_FORM_URL : GoogleFormURL(編集権限付き)
+**  - @param SHEET_TITLE : 行事
+**  - @param SPREADSHEET_FOR_CAC_MEMBERS : 部員公開用SpreadSheetURL(編集権限付き)
+**  - @param membersSpreadSheet : 部員の情報を載せたSpreadSheetURL(編集権限付き)
 */
 
-var GOOGLE_FORM_URL = '',
-    // SPREADSHEET_URL = '',
-    SHEET_TITLE = '';
+var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/1qygE42Iwdlue3r8huR2DwFcvdidZIb0SuzFZWZp4hGs/edit?usp=sharing',
+    SHEET_TITLE = 'sampleeeee';
     
 var GOOGLE_FORM = FormApp.openByUrl(GOOGLE_FORM_URL),
-    // スプレッドシート(部員には見せない)。
-    // SPREADSHEET_OF_FORM = SpreadsheetApp.openByUrl(SPREADSHEET_URL).getSheets()[0], //URL(form)のオブジェクトを取得。
     //部員に見せるスプレッドシート。(公開用)
-    SPREADSHEET_FOR_CAC_MEMBERS = SpreadsheetApp.openByUrl(''),
+    SPREADSHEET_FOR_CAC_MEMBERS = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/12a2QcY7td8L5l-T0KQ_mCxwt7bmm0cuAGMDlZDngOmE/edit?usp=sharing'),
     //部員の名前が書かれたシートのURL。(参照用)
-    membersSpreadSheet = SpreadsheetApp.openByUrl('').getSheets()[1];
+    membersSpreadSheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/12a2QcY7td8L5l-T0KQ_mCxwt7bmm0cuAGMDlZDngOmE/edit?usp=sharing').getSheets()[1];
 
 try {
   //閲覧用にシートを前から順に追加していく。
   var newSheet = SPREADSHEET_FOR_CAC_MEMBERS.insertSheet(SHEET_TITLE, SPREADSHEET_FOR_CAC_MEMBERS.getSheets().length);
 }catch (error) {
-  Logger.log("エラー::実装時取り消すことを考慮する。");
   Logger.log('シートの番号は ' + SPREADSHEET_FOR_CAC_MEMBERS.getSheets().length);
 }
 
@@ -33,7 +35,24 @@ var nameHash = {}, //Dictionaryの初期化
       green: '#00FF00', 
       white: '#FFFFFF'
     };
-/**************************************************ここから**************************************************/
+/* -------------------------------------------------------------------------------------------------- */
+
+/* トリガーの設定 */
+function setTriggar(){
+//  var triggers = ScriptApp.getProjectTriggers();
+//  for(var i=0; i < triggers.length; i++) {
+//    ScriptApp.deleteTrigger(triggers[i]);
+//  }
+  try{
+    ScriptApp.newTrigger('copyAndPaste')
+    .forForm(GOOGLE_FORM)
+    .onFormSubmit()
+    .create();
+  } catch(error){
+     Logger.log('Miss');
+  }
+  copyAndPaste();
+}
 
 /* スプレッドシートの読み込み */
 function copyAndPaste(){
