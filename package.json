@@ -32,7 +32,7 @@
     "@types/jest": "24.0.18",
     "cpx": "1.5.0",
     "gas-webpack-plugin": "1.0.2",
-    "jest": "24.9.0",
+    "jest": "^25.1.0",
     "prettier": "1.18.2",
     "rimraf": "3.0.0",
     "ts-jest": "24.1.0",
@@ -40,7 +40,7 @@
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.0.1",
-    "typedoc": "^0.4.5",
+    "typedoc": "^0.16.11",
     "typescript": "3.6.4",
     "webpack": "4.41.1",
     "webpack-cli": "3.3.9"
@@ -60,8 +60,7 @@
     ]
   },
   "dependencies": {
-    "braces": "^3.0.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-typedoc": "^2.0.0"
   }
 }
