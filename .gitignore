@@ -18,6 +18,7 @@ dist/
 # Dust Box
 dust/
 .DS_Store*
+
 template.js
 
 # private informations
