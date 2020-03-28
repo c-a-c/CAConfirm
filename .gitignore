@@ -19,8 +19,6 @@ dist/
 dust/
 .DS_Store*
 
-template.js
-
 # private informations
 .clasp.json
 # appsscript.json
