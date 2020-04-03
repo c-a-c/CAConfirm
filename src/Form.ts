@@ -50,7 +50,10 @@ export class Form /*extends AbstractOpen*/ {
           let studentNumbers = String(studentNumberList.getResponse());
           // ↓　Probably, it is hard for this editor to judge what class type is .
           // answeredMenber[studentNumberList.getResponse()] = true;
-          answeredMenber[studentNumbers] = checker.numberCheck(studentNumbers);
+          
+          let checkData = checker.numberCheck(studentNumbers);
+          let numberList: string = checkData.numberList.join('');
+          answeredMenber[numberList] = checkData.bool;
           continue;
         }
       }
