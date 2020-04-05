@@ -1,23 +1,34 @@
-import { Student } from "./Student";
+import { Student } from './Student';
 
-export class StudentShelf{
-  // student data
+export class StudentShelf {
+  // student data: Instance
   private studentList: Array<Student>;
+  // index size
+  private indexSize: number = 0;
 
-  constructor(){}
-
-  /**
-   * - Getter : Get student list data .
-   */
-  public getData() {
-    
+  constructor(maxIndex: number) {
+    this.studentList = new Array(maxIndex);
   }
 
   /**
-   * - Setter : Set student list data .
+   * appendStudent
    */
-  public setData() {
-    
+  public appendStudent(student: Student) {
+    this.studentList[this.indexSize] = student;
+    this.indexSize++;
   }
 
+  /**
+   *
+   */
+  public getMaxIndex() {
+    return this.indexSize;
+  }
+
+  /**
+   *
+   */
+  public getList(index: number) {
+    return this.studentList[index];
+  }
 }

@@ -1,12 +1,12 @@
 # ARG = projectName
 
-install: 
-	npm i @google/clasp -g
-	npm i
-
 check: 
 	node -v
 	npm -v
+	
+install: 
+	npm i @google/clasp -g
+	npm i
 
 create:
 	clasp create --type standalone --rootDir ./dist --title aaa
