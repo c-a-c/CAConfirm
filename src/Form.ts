@@ -33,11 +33,12 @@ export class Form /*extends AbstractOpen*/ {
 
   /**
    * - Get any properties(ex. student number) from Form .
-   * @param answeredMenber key->studentnumber: string, value-> true or false: boolean
-   * @returns answeredMenber same parameter
+   * @param {StudentShelf} studentData key->studentnumber: string, value-> true or false: boolean
+   * @returns {string} numberList student number list .
    */
-  public getTitle(answeredMenber: { [key: string]: boolean }) {
+  public getTitle(): string[] {
     const checker: Check = new Check();
+    let numberList: string[] = [];
     for (let items in this._formResponses) {
       let itemResponse: FormItemResponse[] = this._formResponses[items].getItemResponses();
 
@@ -48,16 +49,12 @@ export class Form /*extends AbstractOpen*/ {
         if (formColumnTitle.match('学生証番号') || formColumnTitle.match('学籍番号')) {
           // if (formColumnTitle.match('/*番号/')) {
           let studentNumbers = String(studentNumberList.getResponse());
-          // ↓　Probably, it is hard for this editor to judge what class type is .
-          // answeredMenber[studentNumberList.getResponse()] = true;
-          
-          let checkData = checker.numberCheck(studentNumbers);
-          let numberList: string = checkData.numberList.join('');
-          answeredMenber[numberList] = checkData.bool;
+
+          if (checker.isCorrectNumber(studentNumbers)) numberList.push(studentNumbers);
           continue;
         }
       }
     }
-    return answeredMenber;
+    return numberList;
   }
 }
