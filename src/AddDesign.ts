@@ -1,11 +1,10 @@
 import Sheets = GoogleAppsScript.Spreadsheet.Sheet;
 import Range = GoogleAppsScript.Spreadsheet.Range;
+import { StudentShelf } from './StudentShelf';
 // import { Zip } from './Zip';
 
 export class AddDesign /*extends Zip*/ {
-  private _thisYearSheet: Sheets;
   private _sheetsName: Sheets;
-  private _allMenbers: number; // Get Sheet(registered menbers) length = How many people .
   // Add design sheet .
   private _color = {
     red: '#FF0000',
@@ -13,56 +12,24 @@ export class AddDesign /*extends Zip*/ {
     white: '#FFFFFF'
   };
 
-  constructor(thisYearSheet: Sheets[], sheetsName: Sheets) {
+  constructor(sheetsName: Sheets) {
     // super();
-    // You should select sheet index .
-    this._thisYearSheet = thisYearSheet[1];
     this._sheetsName = sheetsName;
-    this._allMenbers = this._thisYearSheet.getLastRow();
-  }
-
-  /**
-   * - Copy another sheet and set student name .
-   */
-  public setStudentName() {
-    try {
-      // Get data of cell from A to B .
-      let getNameFromSheet: string[][] = this._thisYearSheet
-        .getRange(`A1:B${this._allMenbers}`)
-        .getValues();
-      // Copy from sheetMenbers(registered menbers) to sheetsName(to show everyone)
-      this._sheetsName.getRange(`A1:B${this._allMenbers}`).setValues(getNameFromSheet);
-    } catch (e) {
-      Logger.log(e);
-    }
-  }
-
-  /**
-   * - Get data(student name and number and so on ...) from sheet .
-   * @param alphabet sheet row
-   * @returns menbersArray string[]
-   */
-  private getDataFromSheet(alphabet: string): string[] {
-    // Copy menbers student's data .
-    let studentArray: object[][] = this._thisYearSheet
-      .getRange(`${alphabet}1:${alphabet}${this._allMenbers}`) // ex) 'A1:A:100'
-      .getValues();
-    // Change 1 dimension Array from 2 dimension .
-    let menbersArray: string[] = Array.prototype.concat.apply([], studentArray);
-    return menbersArray;
   }
 
   /**
    *
    */
-  public judgeData(answeredMenber: { [key: string]: boolean }) {
-    let nameArray: string[] = this.getDataFromSheet('B');
-    let numberArray: string[] = this.getDataFromSheet('C');
-    for (let counter = 0; counter < nameArray.length; counter++) {
-      if (answeredMenber[numberArray[counter]]) {
+  public judgeData(studentData: StudentShelf) {
+    // let nameArray: string[] = this.getDataFromSheet('B');
+    // let numberArray: string[] = this.getDataFromSheet('C');
+    for (let counter = 0; counter < studentData.getMaxIndex(); counter++) {
+      if (studentData.getList(counter).getFlag()) {
         this.decoration(this._sheetsName.getRange(counter + 1, 3), '◯', this._color.green);
-        // Logger.log(numberArray[counter]);
-      } else if (numberArray[counter] === '' || numberArray[counter] === null) {
+      } else if (
+        studentData.getList(counter).getName() === '' ||
+        studentData.getList(counter).getNumber() === ''
+      ) {
         this.decoration(this._sheetsName.getRange(counter + 1, 3), '', this._color.white);
       } else {
         this.decoration(this._sheetsName.getRange(counter + 1, 3), '×', this._color.red);
