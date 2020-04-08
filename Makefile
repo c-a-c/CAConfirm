@@ -8,8 +8,8 @@ install:
 	npm i @google/clasp -g
 	npm i
 
-create:
-	clasp create --type standalone --rootDir ./dist --title aaa
+# create:
+# 	clasp create --type standalone --rootDir ./dist --title aaa
 
 run: 
 	npm run deploy
