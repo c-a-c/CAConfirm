@@ -51,7 +51,6 @@ export class Form /*extends AbstractOpen*/ {
           let studentNumbers = String(studentNumberList.getResponse());
           let correctNumber = checker.isCorrectNumber(studentNumbers);
 
-          Logger.log(`${correctNumber.bool}: ${correctNumber.studentNumberArray}`);
           if (correctNumber.bool) numberList.push(correctNumber.studentNumberArray);
           continue;
         }
