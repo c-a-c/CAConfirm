@@ -49,8 +49,10 @@ export class Form /*extends AbstractOpen*/ {
         if (formColumnTitle.match('学生証番号') || formColumnTitle.match('学籍番号')) {
           // if (formColumnTitle.match('/*番号/')) {
           let studentNumbers = String(studentNumberList.getResponse());
+          let correctNumber = checker.isCorrectNumber(studentNumbers);
 
-          if (checker.isCorrectNumber(studentNumbers)) numberList.push(studentNumbers);
+          Logger.log(`${correctNumber.bool}: ${correctNumber.studentNumberArray}`);
+          if (correctNumber.bool) numberList.push(correctNumber.studentNumberArray);
           continue;
         }
       }

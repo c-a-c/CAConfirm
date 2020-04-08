@@ -5,7 +5,7 @@ export class Check {
    * - Student number check .
    * - studentNumber can devide '10' .
    * @param {string} studentNumber Student number .
-   * @returns {bool} Whether number can devided by '10' or not .
+   * @returns {bool, string} (Whether number can devided by '10' or not) (student number except 'g' or '1') .
    */
   public isCorrectNumber(studentNumber: string): any {
     let sumNumber: number = 0;
@@ -18,7 +18,7 @@ export class Check {
       charactor.shift(); // Delete 'g'
       charactor.shift(); // Delete '1'
     } else {
-      return false;
+      return { bool: false, studentNumberArray: charactor.join('') };
     }
 
     for (let i = 0; i < charactor.length; i++) {
@@ -26,11 +26,11 @@ export class Check {
     }
     // Logger.log(charactor + ' : ' + sumNumber);
     // If it is possible to devide sumNumber by number'10', it is correct student number .
-    return sumNumber % 10 == 0 ? true : false;
-    // if (sumNumber % 10 == 0) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+    // return sumNumber % 10 == 0 ? {bool: true, studentNumberArray: charactor.join('')} : {bool: false, studentNumberArray: charactor.join('')};
+    if (sumNumber % 10 == 0) {
+      return { bool: true, studentNumberArray: charactor.join('') };
+    } else {
+      return { bool: false, studentNumberArray: charactor.join('') };
+    }
   }
 }
