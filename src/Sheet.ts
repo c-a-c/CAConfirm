@@ -1,5 +1,7 @@
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import Sheets = GoogleAppsScript.Spreadsheet.Sheet;
+import { StudentShelf } from './StudentShelf';
+import { Student } from './Student';
 
 export class Sheet /*extends AbstractOpen*/ {
   protected sheetsUrlForEveryone: string;
@@ -11,6 +13,7 @@ export class Sheet /*extends AbstractOpen*/ {
   private _sheetSize: number; // sheet for publication of size
   private _sheetsName: Sheets; // sheet for publication of name
   private _sheetMenbers: Sheets[]; // menbers sheet
+  private _sheetMenbers_new: Sheets; // menbers sheet
 
   public constructor(sheetsUrlForEveryone: string, sheetsUrlMenbers: string) {
     this.sheetsUrlForEveryone = sheetsUrlForEveryone;
@@ -36,6 +39,7 @@ export class Sheet /*extends AbstractOpen*/ {
     this._sheetSize = this._sheetForEveryone.length;
     /* You should change sheet index when a menbers list was updated . And this is Array type . */
     this._sheetMenbers = this._sheetsMenbersObject.getSheets();
+    this._sheetMenbers_new = this._sheetsMenbersObject.getSheets()[1];
   }
 
   /**
@@ -64,6 +68,14 @@ export class Sheet /*extends AbstractOpen*/ {
   }
 
   /**
+   * - Get a number of students .
+   * @returns this._sheetMenbers[1].getLastRow()
+   */
+  public getSumMember(): number {
+    return this._sheetMenbers[1].getLastRow();
+  }
+
+  /**
    * - Insert new sheet .
    * @param eventTitle event name
    */
@@ -73,5 +85,53 @@ export class Sheet /*extends AbstractOpen*/ {
     } catch (error) {
       Logger.log(`warning：${eventTitle}はシートに挿入できません。\n${error}`);
     }
+  }
+
+  /**
+   * - Copy another sheet and set student name .
+   */
+  public setStudentName() {
+    try {
+      // Get data of cell from A to B .
+      let getNameFromSheet: string[][] = this._sheetMenbers_new
+        .getRange(`A1:B${this.getSumMember()}`)
+        .getValues();
+      // Copy from sheetMenbers(registered menbers) to sheetsName(to show everyone)
+      this._sheetsName.getRange(`A1:B${this.getSumMember()}`).setValues(getNameFromSheet);
+    } catch (e) {
+      Logger.log(e);
+    }
+  }
+
+  /**
+   * - Get data(student name and number and so on ...) from sheet .
+   * @param alphabet sheet row
+   * @returns menbersArray string[]
+   */
+  private getDataFromSheet(alphabet: string): string[] {
+    // Copy menbers student's data .
+    let studentArray: object[][] = this._sheetMenbers_new
+      .getRange(`${alphabet}1:${alphabet}${this.getSumMember()}`) // ex) 'A1:A:100'
+      .getValues();
+    // Change 1 dimension Array from 2 dimension .
+    let menbersArray: string[] = Array.prototype.concat.apply([], studentArray);
+    return menbersArray;
+  }
+
+  /**
+   * - Get data(student name and number and so on ...) from sheet .
+   * @param alphabet sheet row
+   * @returns menbersArray string[]
+   */
+  public setStudentData(student: StudentShelf): StudentShelf {
+    // student name
+    let nameArray: string[] = this.getDataFromSheet('B');
+    // student number
+    let numberArray: string[] = this.getDataFromSheet('C');
+    for (let counter = 0; counter < nameArray.length; counter++) {
+      student.appendStudent(new Student(nameArray[counter], numberArray[counter]));
+    }
+    // Logger.log(`${nameArray} : ${numberArray}`);
+    return student;
   }
 }
