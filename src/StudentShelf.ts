@@ -21,14 +21,14 @@ export class StudentShelf {
   /**
    *
    */
-  public getMaxIndex() {
+  public getMaxIndex(): number {
     return this.indexSize;
   }
 
   /**
    *
    */
-  public getList(index: number) {
+  public getList(index: number): Student {
     return this.studentList[index];
   }
 }
