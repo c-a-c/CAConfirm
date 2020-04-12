@@ -3,57 +3,27 @@ import { Form } from './Form';
 import { Sheet } from './Sheet';
 import { AddDesign } from './AddDesign';
 import { StudentShelf } from './StudentShelf';
+import { Trigger } from './Trigger';
 
 export class SetFormAndSheetData {
   private _prop: Property;
   private _form: Form;
   private _sheet: Sheet;
   private _design: AddDesign;
-  private _sumStudent: number;
-  private _studentNumberList: String[];
 
-  public constructor(prop: Property) {
-    this._prop = prop;
-    this.initialize(this._prop);
-    this._studentNumberList = [];
-  }
-
-  private initialize(prop: Property) {
-    this._form = new Form(prop.getForm);
-    this._sheet = new Sheet(prop.getSheetForEveryone, prop.getSheetMenbers);
+  public constructor() {
+    this._prop = new Property();
+    this._form = new Form(this._prop.getForm);
+    this._sheet = new Sheet(this._prop.getSheetForEveryone, this._prop.getSheetMenbers);
   }
 
   /**
-   * - Set trigger to launch automatically .
-   *  - set new trigger after deleting old trigger .
+   * - Set trigger and run all .
    */
-  public setTrigger() {
-    this.deleteTrigger();
+  public run() {
+    const trigger: Trigger = new Trigger();
+    trigger.setTrigger(this._form);
     this.makeSheet();
-
-    try {
-      ScriptApp.newTrigger('makeSheet')
-        .forForm(this._form.openApps())
-        .onFormSubmit()
-        .create();
-      Logger.log('successly create trigger .');
-    } catch (error) {
-      Logger.log('Miss: cannot set trigger');
-    }
-  }
-
-  /**
-   * - Set trigger to launch automatically .
-   */
-  private deleteTrigger() {
-    for (const trigger of ScriptApp.getProjectTriggers()) {
-      try {
-        ScriptApp.deleteTrigger(trigger);
-        Logger.log('successly delete trigger .');
-      } catch (error) {
-        Logger.log('Miss: cannot delete trigger .');
-      }
-    }
   }
 
   /**
@@ -65,10 +35,10 @@ export class SetFormAndSheetData {
     this._sheet.insertSheets(this._prop.getEventName);
 
     /* Get number of students */
-    this._sumStudent = this._sheet.getSumMember();
+    const sumStudent: number = this._sheet.getSumMember();
 
     /* Set student data */
-    let studentShelf: StudentShelf = new StudentShelf(this._sumStudent);
+    let studentShelf: StudentShelf = new StudentShelf(sumStudent);
 
     /* Read sheet */
     this._design = new AddDesign(this._sheet.getForEveryoneSheet());
@@ -76,12 +46,13 @@ export class SetFormAndSheetData {
     studentShelf = this._sheet.setStudentData(studentShelf);
 
     /* Get form property */
-    this._studentNumberList = this._form.getTitle();
+    let studentNumberList: String[] = [];
+    studentNumberList = this._form.getTitle();
 
     /* Change stundet flag */
     for (let counter = 0; counter < studentShelf.getMaxIndex(); counter++) {
-      for (const arrayItem in this._studentNumberList) {
-        if (studentShelf.getList(counter).getNumber() == this._studentNumberList[arrayItem]) {
+      for (const arrayItem in studentNumberList) {
+        if (studentShelf.getList(counter).getNumber() == studentNumberList[arrayItem]) {
           // Set true flag for student
           studentShelf.getList(counter).setFlag();
           // Logger.log(studentShelf.getList(counter).getNumber());
