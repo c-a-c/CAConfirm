@@ -18,6 +18,7 @@ dist/
 # Dust Box
 dust/
 .DS_Store*
+Makefile
 
 # private informations
 .clasp.json
