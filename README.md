@@ -1,5 +1,5 @@
 # CAconfirm
-- オリジナルは(こちら)[https://github.com/uewolf25/confirm_form]
+- オリジナルは[こちら](https://github.com/uewolf25/confirm_form)
   - 簡単にしか説明しないので必要であればオリジナルの方を見てもらえれば。
 
 ## 簡略コマンド
@@ -35,6 +35,9 @@ npm run test
 
 以上でエラーが出た場合は以下の詳細をご覧ください。
 ___
+
+## アーキテクチャ
+![](img/architecture.png)  
 
 ## 前準備
 - Node.jsのインストール
